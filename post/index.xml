@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Even - A super concise theme for Hugo</title>
+    <link>http://localhost:1313/post/</link>
+    <description>Recent content in Posts on Even - A super concise theme for Hugo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 12 Jun 2020 13:47:44 +0000</lastBuildDate>
+    
+	<atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>adb常用命令</title>
+      <link>http://localhost:1313/post/adb/</link>
+      <pubDate>Fri, 12 Jun 2020 13:47:44 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/adb/</guid>
+      <description>打开原生launcher页面 1 adb shell am start -n com.android.launcher3/.Launcher 打开一般电视的原生设置 1 adb shell am start com.android.tv.settings/.MainSettings 查看可见的activity，最上层的activity 1 adb shell dumpsys activity |</description>
+    </item>
+    
+    <item>
+      <title>快速搭建SS</title>
+      <link>http://localhost:1313/post/%E6%90%AD%E5%BB%BAss%E4%B8%8A%E7%BD%91/</link>
+      <pubDate>Thu, 01 Mar 2018 00:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/%E6%90%AD%E5%BB%BAss%E4%B8%8A%E7%BD%91/</guid>
+      <description>shell远程登录服务器 vultr服务器创建完毕 1 ssh root@自己的ip地址 获取安装脚本，并修改成可执行文件 1 2 wget –no-check-cer</description>
+    </item>
+    
+  </channel>
+</rss>
