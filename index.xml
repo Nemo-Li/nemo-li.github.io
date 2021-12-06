@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Even - A super concise theme for Hugo</title>
+    <title>nemoli&#39;s blog</title>
     <link>https://nemo-li.github.io/</link>
-    <description>Recent content on Even - A super concise theme for Hugo</description>
+    <description>Recent content on nemoli&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 05 Sep 2020 16:51:01 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 06 Dec 2021 23:37:20 +0800</lastBuildDate>
     
 	<atom:link href="https://nemo-li.github.io/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Flappy</title>
-      <link>https://nemo-li.github.io/post/flappy/</link>
-      <pubDate>Sat, 05 Sep 2020 16:51:01 +0800</pubDate>
-      
-      <guid>https://nemo-li.github.io/post/flappy/</guid>
-      <description>OpenGL Open Graphics Library开放式图形库是用于渲染2D、3D矢量图形的跨语言、跨平台的应用程序编程接口（API）。而另一种程序接口系统是仅用于Mic</description>
-    </item>
     
     <item>
       <title>About</title>
@@ -32,12 +23,30 @@ It makes use of a variety of open source projects including:
     </item>
     
     <item>
+      <title>Linux内核编译</title>
+      <link>https://nemo-li.github.io/post/linux%E5%86%85%E6%A0%B8%E7%BC%96%E8%AF%91/</link>
+      <pubDate>Mon, 06 Dec 2021 23:37:20 +0800</pubDate>
+      
+      <guid>https://nemo-li.github.io/post/linux%E5%86%85%E6%A0%B8%E7%BC%96%E8%AF%91/</guid>
+      <description>Linux内核编译 mac搭建docker环境 使用homebrew安装docker 1 2 3 brew install --cask --appdir=/Applications docker //使用下面命令查看版本 docker --version 拉取ubuntu</description>
+    </item>
+    
+    <item>
+      <title>Flappy</title>
+      <link>https://nemo-li.github.io/post/flappy/</link>
+      <pubDate>Sat, 05 Sep 2020 16:51:01 +0800</pubDate>
+      
+      <guid>https://nemo-li.github.io/post/flappy/</guid>
+      <description>OpenGL Open Graphics Library开放式图形库是用于渲染2D、3D矢量图形的跨语言、跨平台的应用程序编程接口（API）。而另一种程序接口系统是仅用于Mic</description>
+    </item>
+    
+    <item>
       <title>adb常用命令</title>
       <link>https://nemo-li.github.io/post/adb/</link>
       <pubDate>Fri, 12 Jun 2020 13:47:44 +0000</pubDate>
       
       <guid>https://nemo-li.github.io/post/adb/</guid>
-      <description>打开原生launcher页面 1 adb shell am start -n com.android.launcher3/.Launcher 打开一般电视的原生设置 1 adb shell am start com.android.tv.settings/.MainSettings 查看可见的activity，最上层的activity 1 adb shell dumpsys activity |</description>
+      <description>打开原生launcher页面 1 adb shell am start -n com.android.launcher3/.Launcher 打开一般电视的原生设置 1 adb shell am start com.android.tv.settings/.MainSettings 查看可见的activity，最上层的activity 1 adb shell dumpsys activity activities</description>
     </item>
     
     <item>

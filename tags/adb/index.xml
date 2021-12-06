@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>adb on Even - A super concise theme for Hugo</title>
+    <title>adb on nemoli&#39;s blog</title>
     <link>https://nemo-li.github.io/tags/adb/</link>
-    <description>Recent content in adb on Even - A super concise theme for Hugo</description>
+    <description>Recent content in adb on nemoli&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Fri, 12 Jun 2020 13:47:44 +0000</lastBuildDate>
@@ -17,7 +17,7 @@
       <pubDate>Fri, 12 Jun 2020 13:47:44 +0000</pubDate>
       
       <guid>https://nemo-li.github.io/post/adb/</guid>
-      <description>打开原生launcher页面 1 adb shell am start -n com.android.launcher3/.Launcher 打开一般电视的原生设置 1 adb shell am start com.android.tv.settings/.MainSettings 查看可见的activity，最上层的activity 1 adb shell dumpsys activity |</description>
+      <description>打开原生launcher页面 1 adb shell am start -n com.android.launcher3/.Launcher 打开一般电视的原生设置 1 adb shell am start com.android.tv.settings/.MainSettings 查看可见的activity，最上层的activity 1 adb shell dumpsys activity activities</description>
     </item>
     
   </channel>

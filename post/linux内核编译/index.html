@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>快速搭建SS - nemoli&#39;s blog</title>
+  <title>Linux内核编译 - nemoli&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="nemoli" /><meta name="description" content="shell远程登录服务器 vultr服务器创建完毕 1 ssh root@自己的ip地址 获取安装脚本，并修改成可执行文件 1 2 wget –no-check-cer" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="nemoli" /><meta name="description" content="Linux内核编译 mac搭建docker环境 使用homebrew安装docker 1 2 3 brew install --cask --appdir=/Applications docker //使用下面命令查看版本 docker --version 拉取ubuntu" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.63.2 with theme even" />
 
 
-<link rel="canonical" href="https://nemo-li.github.io/post/%E6%90%AD%E5%BB%BAss%E4%B8%8A%E7%BD%91/" />
+<link rel="canonical" href="https://nemo-li.github.io/post/linux%E5%86%85%E6%A0%B8%E7%BC%96%E8%AF%91/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,23 +39,23 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="快速搭建SS" />
-<meta property="og:description" content="shell远程登录服务器 vultr服务器创建完毕 1 ssh root@自己的ip地址 获取安装脚本，并修改成可执行文件 1 2 wget –no-check-cer" />
+<meta property="og:title" content="Linux内核编译" />
+<meta property="og:description" content="Linux内核编译 mac搭建docker环境 使用homebrew安装docker 1 2 3 brew install --cask --appdir=/Applications docker //使用下面命令查看版本 docker --version 拉取ubuntu" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://nemo-li.github.io/post/%E6%90%AD%E5%BB%BAss%E4%B8%8A%E7%BD%91/" />
-<meta property="article:published_time" content="2018-03-01T00:00:00+08:00" />
-<meta property="article:modified_time" content="2018-07-01T00:00:00+08:00" />
-<meta itemprop="name" content="快速搭建SS">
-<meta itemprop="description" content="shell远程登录服务器 vultr服务器创建完毕 1 ssh root@自己的ip地址 获取安装脚本，并修改成可执行文件 1 2 wget –no-check-cer">
-<meta itemprop="datePublished" content="2018-03-01T00:00:00&#43;08:00" />
-<meta itemprop="dateModified" content="2018-07-01T00:00:00&#43;08:00" />
-<meta itemprop="wordCount" content="170">
+<meta property="og:url" content="https://nemo-li.github.io/post/linux%E5%86%85%E6%A0%B8%E7%BC%96%E8%AF%91/" />
+<meta property="article:published_time" content="2021-12-06T23:37:20+08:00" />
+<meta property="article:modified_time" content="2021-12-06T23:37:20+08:00" />
+<meta itemprop="name" content="Linux内核编译">
+<meta itemprop="description" content="Linux内核编译 mac搭建docker环境 使用homebrew安装docker 1 2 3 brew install --cask --appdir=/Applications docker //使用下面命令查看版本 docker --version 拉取ubuntu">
+<meta itemprop="datePublished" content="2021-12-06T23:37:20&#43;08:00" />
+<meta itemprop="dateModified" content="2021-12-06T23:37:20&#43;08:00" />
+<meta itemprop="wordCount" content="433">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="快速搭建SS"/>
-<meta name="twitter:description" content="shell远程登录服务器 vultr服务器创建完毕 1 ssh root@自己的ip地址 获取安装脚本，并修改成可执行文件 1 2 wget –no-check-cer"/>
+<meta name="twitter:title" content="Linux内核编译"/>
+<meta name="twitter:description" content="Linux内核编译 mac搭建docker环境 使用homebrew安装docker 1 2 3 brew install --cask --appdir=/Applications docker //使用下面命令查看版本 docker --version 拉取ubuntu"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -122,10 +122,10 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">快速搭建SS</h1>
+      <h1 class="post-title">Linux内核编译</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2018-03-01 </span>
+        <span class="post-time"> 2021-12-06 </span>
         
         
       </div>
@@ -136,12 +136,14 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#linux内核编译">Linux内核编译</a>
       <ul>
-        <li>
+        <li><a href="#mac搭建docker环境">mac搭建docker环境</a>
           <ul>
-            <li><a href="#shell远程登录服务器">shell远程登录服务器</a></li>
-            <li><a href="#安装bbr加速">安装BBR加速</a></li>
+            <li><a href="#使用homebrew安装docker">使用homebrew安装docker</a></li>
+            <li><a href="#拉取ubuntu镜像">拉取ubuntu镜像</a></li>
+            <li><a href="#创建容器">创建容器</a></li>
+            <li><a href="#提交镜像">提交镜像</a></li>
           </ul>
         </li>
       </ul>
@@ -151,38 +153,9 @@
   </div>
 </div>
     <div class="post-content">
-      <h3 id="shell远程登录服务器">shell远程登录服务器</h3>
-<h4 id="vultr服务器创建完毕">vultr服务器创建完毕</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Shell" data-lang="Shell">ssh root@自己的ip地址
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="获取安装脚本并修改成可执行文件">获取安装脚本，并修改成可执行文件</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Shell" data-lang="Shell">wget –no-check-certificate  https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh
-chmod +x shadowsocks.sh
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="执行脚本安装服务端shadowsocks">执行脚本安装服务端shadowsocks</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-Shell" data-lang="Shell">./shadowsocks.sh 2&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">|</span> tee shadowsocks.log
-</code></pre></td></tr></table>
-</div>
-</div><p>可以直接默认下一步，最终会显示最后的账号密码等信息</p>
-<h3 id="安装bbr加速">安装BBR加速</h3>
+      <h1 id="linux内核编译">Linux内核编译</h1>
+<h2 id="mac搭建docker环境">mac搭建docker环境</h2>
+<h3 id="使用homebrew安装docker">使用homebrew安装docker</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -190,9 +163,62 @@ chmod +x shadowsocks.sh
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">wget –no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh
-chmod +x bbr.sh
-./bbr.sh
+<pre class="chroma"><code class="language-shell" data-lang="shell">brew install --cask --appdir<span class="o">=</span>/Applications docker
+//使用下面命令查看版本
+docker --version
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="拉取ubuntu镜像">拉取ubuntu镜像</h3>
+<p>如果只输入ubuntu，默认拉取最新版本，冒号后面加相应tag版本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">docker pull ubuntu:16.04
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="创建容器">创建容器</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">docker run -i -t --name ubuntu16.04 ubuntu:16.04 bash
+</code></pre></td></tr></table>
+</div>
+</div><p>查看当前安装的 Docker 镜像<code>docker image ls</code>。执行命令<code>cat /etc/issue</code> 可以查看系统版本,按快捷键组合 <code>ctrl + d </code>就会退出 ubuntu 容器，此时就会停止容器运行。</p>
+<p>使用命令 docker ps 可以查看当前运行的容器，如果此时执行，会发现没有容器信息，因为我们已经停止了刚才创建的容器。怎么查看已经关闭的容器信息呢？使用命令 docker ps -a，会列出所有容器信息，包括已经关闭的。此时执行，就会看到已经关闭的 ubuntu16.04 容器。</p>
+<h3 id="提交镜像">提交镜像</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">docker commit -m <span class="s1">&#39;add ssh&#39;</span> -a <span class="s1">&#39;nemoli&#39;</span> 1a253c5c60a2 ubuntu-nemo
+//运行容器
+docker run -d -p 26122:22 --name learn ubuntu-nemo /usr/sbin/sshd -D
+</code></pre></td></tr></table>
+</div>
+</div><p>为ubuntu容器开启ssh服务后可以在iterm终端访问该容器</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">//连接容器
+ssh -p <span class="m">26122</span> root@localhost
+//本地拷贝文件到容器
+docker cp 本地文件路径 ID全称:容器路径
+//容器拷贝到本地
+docker cp ID全称:容器路径 本地文件路径 
 </code></pre></td></tr></table>
 </div>
 </div>
@@ -206,7 +232,7 @@ chmod +x bbr.sh
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        2018-07-01
+        2021-12-06
         
     </span>
   </p>
@@ -216,12 +242,12 @@ chmod +x bbr.sh
 <footer class="post-footer">
       
       <nav class="post-nav">
-        <a class="prev" href="/post/adb/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">adb常用命令</span>
-            <span class="prev-text nav-mobile">上一篇</span>
-          </a>
         
+        <a class="next" href="/post/flappy/">
+            <span class="next-text nav-default">Flappy</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
       </nav>
     </footer>
   </article>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>adb常用命令 - Even - A super concise theme for Hugo</title>
+  <title>adb常用命令 - nemoli&#39;s blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="nemoli" /><meta name="description" content="打开原生launcher页面 1 adb shell am start -n com.android.launcher3/.Launcher 打开一般电视的原生设置 1 adb shell am start com.android.tv.settings/.MainSettings 查看可见的activity，最上层的activity 1 adb shell dumpsys activity |" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="nemoli" /><meta name="description" content="打开原生launcher页面 1 adb shell am start -n com.android.launcher3/.Launcher 打开一般电视的原生设置 1 adb shell am start com.android.tv.settings/.MainSettings 查看可见的activity，最上层的activity 1 adb shell dumpsys activity activities" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -40,22 +40,22 @@
 
 
 <meta property="og:title" content="adb常用命令" />
-<meta property="og:description" content="打开原生launcher页面 1 adb shell am start -n com.android.launcher3/.Launcher 打开一般电视的原生设置 1 adb shell am start com.android.tv.settings/.MainSettings 查看可见的activity，最上层的activity 1 adb shell dumpsys activity |" />
+<meta property="og:description" content="打开原生launcher页面 1 adb shell am start -n com.android.launcher3/.Launcher 打开一般电视的原生设置 1 adb shell am start com.android.tv.settings/.MainSettings 查看可见的activity，最上层的activity 1 adb shell dumpsys activity activities" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://nemo-li.github.io/post/adb/" />
 <meta property="article:published_time" content="2020-06-12T13:47:44+00:00" />
 <meta property="article:modified_time" content="2020-06-12T13:47:44+00:00" />
 <meta itemprop="name" content="adb常用命令">
-<meta itemprop="description" content="打开原生launcher页面 1 adb shell am start -n com.android.launcher3/.Launcher 打开一般电视的原生设置 1 adb shell am start com.android.tv.settings/.MainSettings 查看可见的activity，最上层的activity 1 adb shell dumpsys activity |">
+<meta itemprop="description" content="打开原生launcher页面 1 adb shell am start -n com.android.launcher3/.Launcher 打开一般电视的原生设置 1 adb shell am start com.android.tv.settings/.MainSettings 查看可见的activity，最上层的activity 1 adb shell dumpsys activity activities">
 <meta itemprop="datePublished" content="2020-06-12T13:47:44&#43;00:00" />
 <meta itemprop="dateModified" content="2020-06-12T13:47:44&#43;00:00" />
-<meta itemprop="wordCount" content="333">
+<meta itemprop="wordCount" content="370">
 
 
 
 <meta itemprop="keywords" content="adb," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="adb常用命令"/>
-<meta name="twitter:description" content="打开原生launcher页面 1 adb shell am start -n com.android.launcher3/.Launcher 打开一般电视的原生设置 1 adb shell am start com.android.tv.settings/.MainSettings 查看可见的activity，最上层的activity 1 adb shell dumpsys activity |"/>
+<meta name="twitter:description" content="打开原生launcher页面 1 adb shell am start -n com.android.launcher3/.Launcher 打开一般电视的原生设置 1 adb shell am start com.android.tv.settings/.MainSettings 查看可见的activity，最上层的activity 1 adb shell dumpsys activity activities"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -142,7 +142,11 @@
         <li><a href="#打开一般电视的原生设置">打开一般电视的原生设置</a></li>
         <li><a href="#查看可见的activity最上层的activity">查看可见的activity，最上层的activity</a></li>
         <li><a href="#查看settings-provider的系统变量数据库">查看Settings Provider的系统变量数据库</a></li>
-        <li><a href="#打印接收到的系统广播">打印接收到的系统广播</a></li>
+        <li><a href="#打印接收到的系统广播">打印接收到的系统广播</a>
+          <ul>
+            <li><a href="#获取系统中当前的语言选项">获取系统中当前的语言选项</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -174,7 +178,7 @@
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Shell" data-lang="Shell">adb shell dumpsys activity <span class="p">|</span> grep <span class="s2">&#34;mResumedActivity&#34;</span>
+<pre class="chroma"><code class="language-Shell" data-lang="Shell">adb shell dumpsys activity activities <span class="p">|</span> grep <span class="s2">&#34;mResumedActivity&#34;</span>
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="查看settings-provider的系统变量数据库">查看Settings Provider的系统变量数据库</h2>
@@ -220,6 +224,24 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-Shell" data-lang="Shell">adb shell dumpsys <span class="p">|</span>grep BroadcastRecord
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="获取系统中当前的语言选项">获取系统中当前的语言选项</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">getprop persist.sys.locale
+</code></pre></td></tr></table>
+</div>
+</div><p>设置修改系统中的语言选项</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">adb shell <span class="s2">&#34;setprop persist.sys.locale fr-CA; setprop ctl.restart zygote&#34;</span>
 </code></pre></td></tr></table>
 </div>
 </div>
@@ -291,7 +313,7 @@
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>nemoli</span>
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>nemoli</span>
   </span>
 </div>
 
