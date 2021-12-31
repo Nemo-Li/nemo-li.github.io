@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Tv端人脸追踪实现 - nemoli&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="nemoli" /><meta name="description" content="OpenGL简单介绍 OpenGL: 跨平台之王 Direct3D:（简称:D3D） 基于Windows平台开发者，DirectX，由微软创建的多媒体编程接口，" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.63.2 with theme even" />
+
+
+<link rel="canonical" href="https://nemo-li.github.io/post/tv%E7%AB%AF%E4%BA%BA%E8%84%B8%E8%BF%BD%E8%B8%AA%E5%AE%9E%E7%8E%B0/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.6b85ebaa5181f69ffca007917cbe971dca40b9e62b7506dbc9afb955c51bce56.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Tv端人脸追踪实现" />
+<meta property="og:description" content="OpenGL简单介绍 OpenGL: 跨平台之王 Direct3D:（简称:D3D） 基于Windows平台开发者，DirectX，由微软创建的多媒体编程接口，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nemo-li.github.io/post/tv%E7%AB%AF%E4%BA%BA%E8%84%B8%E8%BF%BD%E8%B8%AA%E5%AE%9E%E7%8E%B0/" />
+<meta property="article:published_time" content="2021-12-31T09:09:24+08:00" />
+<meta property="article:modified_time" content="2021-12-31T09:09:24+08:00" />
+<meta itemprop="name" content="Tv端人脸追踪实现">
+<meta itemprop="description" content="OpenGL简单介绍 OpenGL: 跨平台之王 Direct3D:（简称:D3D） 基于Windows平台开发者，DirectX，由微软创建的多媒体编程接口，">
+<meta itemprop="datePublished" content="2021-12-31T09:09:24&#43;08:00" />
+<meta itemprop="dateModified" content="2021-12-31T09:09:24&#43;08:00" />
+<meta itemprop="wordCount" content="4620">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Tv端人脸追踪实现"/>
+<meta name="twitter:description" content="OpenGL简单介绍 OpenGL: 跨平台之王 Direct3D:（简称:D3D） 基于Windows平台开发者，DirectX，由微软创建的多媒体编程接口，"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">nemoli</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">nemoli</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Tv端人脸追踪实现</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-12-31 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#opengl简单介绍">OpenGL简单介绍</a></li>
+        <li><a href="#矩阵">矩阵</a>
+          <ul>
+            <li><a href="#矩阵的发展历史">矩阵的发展历史</a></li>
+            <li><a href="#矩阵在opengl中的应用">矩阵在OpenGL中的应用</a></li>
+          </ul>
+        </li>
+        <li><a href="#着色器">着色器</a></li>
+        <li><a href="#人脸追踪实现原理">人脸追踪实现原理</a>
+          <ul>
+            <li><a href="#纹理裁剪">纹理裁剪</a></li>
+            <li><a href="#离屏渲染技术">离屏渲染技术</a></li>
+          </ul>
+        </li>
+        <li><a href="#opengl渲染完后的数据获取">OpenGL渲染完后的数据获取</a>
+          <ul>
+            <li><a href="#1-glreadpixels">1. glReadPixels</a></li>
+            <li><a href="#2-pbopixel-buffer-object">2. PBO（Pixel Buffer Object）</a></li>
+            <li><a href="#3-imagereader">3. ImageReader</a></li>
+            <li><a href="#4-hardwarebuffer">4. HardwareBuffer</a></li>
+          </ul>
+        </li>
+        <li><a href="#android-图形">Android 图形</a>
+          <ul>
+            <li><a href="#android-图形组件">Android 图形组件</a></li>
+          </ul>
+        </li>
+        <li><a href="#数据流">数据流</a></li>
+        <li><a href="#egl">EGL</a></li>
+        <li><a href="#surfaceview">SurfaceView</a></li>
+        <li><a href="#glsurfaceview">GLSurfaceView</a></li>
+        <li><a href="#surfacetexture">SurfaceTexture</a>
+          <ul>
+            <li><a href="#外部-gles-纹理">外部 GLES 纹理</a></li>
+          </ul>
+        </li>
+        <li><a href="#textureview">TextureView</a></li>
+        <li><a href="#选择-surfaceview-或-textureview">选择 SurfaceView 或 TextureView</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="opengl简单介绍">OpenGL简单介绍</h2>
+<p>OpenGL: 跨平台之王</p>
+<p>Direct3D:（简称:D3D） 基于Windows平台开发者，DirectX，由微软创建的多媒体编程接口，是由很多API组成，按照性质分类，分为：显示部分、声音部分、输入部分和网络部分，其中显示部分担任图像处理关键，其中D3D就是其中的一部分。</p>
+<p>Vulkan: OpenGL的替代者 比较难入门</p>
+<p>WebGL: WebGL是一种JavaScript API，用于在不使用插件的情况下在任何兼容的网页浏览器中呈现交互式2D和3D图形</p>
+<p>Metal: Metal 是由苹果公司所开发的一个应用程序接口（API），兼顾图形与计算功能，面向底层、低开销的硬件加速。其类似于将 OpenGL: 与 OpenCL 的功能集成到了同一个API上，最初支持它的系统是 iOS 8。Metal 使得 iOS 可以实现其他平台的类似功能，例如 Khronos Group 的跨平台 Vulkan 与 Microsoft Windows 上的 Direct3D 12</p>
+<p><a href="https://nemo-li.github.io/post/flappy/">OpenGL和OpenGL ES对比</a></p>
+<h2 id="矩阵">矩阵</h2>
+<h3 id="矩阵的发展历史">矩阵的发展历史</h3>
+<p>参考 <a href="https://www.matongxue.com/madocs/755/">从高斯消元法到矩阵乘法</a></p>
+<p>解决线性方程组 先有了高斯消元法</p>
+<p>英国数学家阿瑟·凯莱（1821－1895）对于看似简单的高斯消元法进行了研究，得出了惊人的结果。</p>
+<p>方程组可以去掉x,y,z等变量写成数块的形式</p>
+<p>通过对数块进行乘法可以解决线性方程组问题</p>
+<p>阿瑟·凯莱在1858年的《矩阵理论纪要》的论文中，给这个数块以合法的数学地位，取了一个名字：<strong>矩阵</strong>。</p>
+<h3 id="矩阵在opengl中的应用">矩阵在OpenGL中的应用</h3>
+<p><a href="https://learnopengl-cn.github.io/01%20Getting%20started/07%20Transformations/">矩阵变换的几何意义</a></p>
+<p>矩阵变换在OpenGL中可以进行坐标空间的转换，其中涉及到3种矩阵：模型矩阵、观察矩阵、投影矩阵</p>
+<p>4个空间：局部空间、世界空间、观察空间、裁剪空间</p>
+<p>最后以屏幕坐标(Screen Coordinate)的形式结束</p>
+<p><img src="/images/facetrack/coordinate_systems.png" alt="空间变换"></p>
+<p>举例演示</p>
+<h2 id="着色器">着色器</h2>
+<p>图形渲染管线接受一组3D坐标，然后把它们转变为你屏幕上的有色2D像素输出。图形渲染管线可以被划分为几个阶段，每个阶段将会把前一个阶段的输出作为输入。所有这些阶段都是高度专门化的（它们都有一个特定的函数），并且很容易并行执行。正是由于它们具有并行执行的特性，当今大多数显卡都有成千上万的小处理核心，它们在GPU上为每一个（渲染管线）阶段运行各自的小程序，从而在图形渲染管线中快速处理你的数据。这些小程序叫做着色器(Shader)。</p>
+<p>有些着色器允许开发者自己配置，这就允许我们用自己写的着色器来替换默认的。这样我们就可以更细致地控制图形渲染管线中的特定部分了，而且因为它们运行在GPU上，所以它们可以给我们节约宝贵的CPU时间。OpenGL着色器是用OpenGL着色器语言(OpenGL Shading Language, GLSL)写成的。</p>
+<p><img src="/images/facetrack/pipeline.png" alt=""></p>
+<p>在OpenGL中，使用到的可编程着色器只有两种：顶点着色器、片段着色器。</p>
+<p><strong>Shader language</strong> 目前有 3 种主流语言：基于 OpenGL 的 <strong>GLSL</strong>（OpenGL Shading Language，也称为 GLslang），基于 Direct3D 的 <strong>HLSL</strong>（High Level Shading Language），还有 NVIDIA 公司的 <strong>Cg</strong> （C for Graphic）语言。</p>
+<p>着色器是GPU编程语言</p>
+<p>着色器的使用举例</p>
+<h2 id="人脸追踪实现原理">人脸追踪实现原理</h2>
+<h3 id="纹理裁剪">纹理裁剪</h3>
+<p>纹理通过矩阵变换进行实时裁剪，AI识别库进行人脸识别得到人脸的数量、宽度、高度、左边距、上边距。通过如下方式来计算裁剪区域</p>
+<p><img src="/images/facetrack/%E4%BA%BA%E8%84%B8%E8%BF%BD%E8%B8%AA%E5%8F%98%E7%84%A6.png" alt="人脸追踪变焦"></p>
+<h3 id="离屏渲染技术">离屏渲染技术</h3>
+<p><strong>FBO（Frame Buffer Object）即帧缓冲区对象，实际上是一个可添加缓冲区的容器，可以为其添加纹理或渲染缓冲区对象（RBO）</strong>。</p>
+<p><strong>FBO 本身不能用于渲染，只有添加了纹理或者渲染缓冲区之后才能作为渲染目标，它仅且提供了 3 个附着（Attachment），分别是颜色附着、深度附着和模板附着</strong>。</p>
+<p><strong>使用 FBO 可以让渲染操作不用再渲染到屏幕上，而是渲染到离屏 Buffer 中，然后可以使用 glReadPixels 或者 HardwareBuffer 将渲染后的图像数据读出来，从而实现在后台利用 GPU 完成对图像的处理</strong>。</p>
+<p><a href="https://juejin.cn/post/6844904099398287373">离屏渲染概念参考</a></p>
+<p>在人脸追踪的实现里，离屏渲染的目的是为了可以获取纹理裁剪后的视频数据</p>
+<h2 id="opengl渲染完后的数据获取">OpenGL渲染完后的数据获取</h2>
+<p>有4种方式可以获取OpenGL渲染后数据</p>
+<h3 id="1-glreadpixels">1. glReadPixels</h3>
+<p>glReadPixels是OpenGL ES 的 API，OpenGL ES 2.0 和 3.0 均支持。 使用非常方便，下面一行代码即可搞定，但是效率也是最低的。</p>
+<p><strong>当调用 glReadPixels 时，首先会影响 CPU 时钟周期，同时 GPU 会等待当前帧绘制完成，读取像素完成之后，才开始下一帧的计算，造成渲染管线停滞。</strong></p>
+<h3 id="2-pbopixel-buffer-object">2. PBO（Pixel Buffer Object）</h3>
+<p>PBO 是 OpenGL ES 3.0 的概念，称为像素缓冲区对象，主要被用于异步像素传输操作。 PBO 仅用于执行像素传输，不连接到纹理，且与 FBO （帧缓冲区对象）无关。</p>
+<h3 id="3-imagereader">3. ImageReader</h3>
+<p>ImageReader 是 Android SDK 提供的 Java 层对象，其内部会创建一个 Surface 对象。</p>
+<h3 id="4-hardwarebuffer">4. HardwareBuffer</h3>
+<p><strong>HardwareBuffer 是一个更底层的对象，代表可由各种硬件单元访问的缓冲区。特别地，HardwareBuffer 可以映射到各种硬件系统的存储器，例如 GPU 、 传感器或上下文集线器或其他辅助处理单元。</strong></p>
+<p>使用的选择：<strong>结合实测性能和实现难度，Native 层建议选择 PBO 方式，超大分辨率建议尝试 HardwareBuffer 方式，Java 层建议使用 ImageReader 方式。</strong></p>
+<p><a href="https://blog.csdn.net/Kennethdroid/article/details/109339906">参考博客</a></p>
+<p>人脸追踪选用ImageReader的方式来进行实现</p>
+<p>实现的大致流程方案</p>
+<p><img src="/images/facetrack/faceTrack.png" alt=""></p>
+<h2 id="android-图形">Android 图形</h2>
+<p>Android 框架提供了各种用于 2D 和 3D 图形渲染的 API，可与制造商的图形驱动程序实现代码交互，应用开发者可通过三种方式将图像绘制到屏幕上：使用<a href="https://source.android.com/devices/graphics/arch-sh?hl=zh-cn#canvas">画布</a>、<a href="https://source.android.com/devices/graphics/arch-egl-opengl?hl=zh-cn">OpenGL ES</a> 或 <a href="https://source.android.com/devices/graphics/arch-vulkan?hl=zh-cn">Vulkan</a>。</p>
+<h3 id="android-图形组件">Android 图形组件</h3>
+<p>无论开发者使用什么渲染 API，一切内容都会渲染到 <strong>Surface</strong> 上。Surface 表示缓冲区队列中的生产方，而缓冲区队列通常会被 SurfaceFlinger 消耗。在 Android 平台上创建的每个窗口都由 Surface 提供支持。所有被渲染的可见 Surface 都被 SurfaceFlinger 合成到屏幕。</p>
+<p>下图显示了关键组件如何协同工作：</p>
+<p><img src="/images/facetrack/ape-fwk-graphics.png" alt=""></p>
+<h4 id="图像流生产方">图像流生产方</h4>
+<p>图像流生产方可以是生成图形缓冲区以供消耗的任何内容。例如 OpenGL ES、Canvas 2D 和 mediaserver 视频解码器。</p>
+<h4 id="图像流消耗方">图像流消耗方</h4>
+<p>图像流的最常见消耗方是 SurfaceFlinger，该系统服务会消耗当前可见的 Surface，并使用窗口管理器中提供的信息将它们合成到屏幕。SurfaceFlinger 是可以修改所显示部分内容的唯一服务。SurfaceFlinger 使用 OpenGL 和 Hardware Composer 来合成一组 Surface。</p>
+<p>其他 OpenGL ES 应用也可以消耗图像流，例如相机应用会消耗相机预览图像流。非 GL 应用也可以是使用方，例如 ImageReader 类。</p>
+<h4 id="硬件混合渲染器">硬件混合渲染器</h4>
+<p>显示子系统的硬件抽象实现。SurfaceFlinger 可以将某些合成工作委托给硬件混合渲染器，以分担 OpenGL 和 GPU 上的工作量。SurfaceFlinger 只是充当另一个 OpenGL ES 客户端。因此，在 SurfaceFlinger 将一个或两个缓冲区合成到第三个缓冲区中的过程中，它会使用 OpenGL ES。这会让合成的功耗比通过 GPU 执行所有计算时更低。</p>
+<p><a href="https://source.android.com/devices/graphics/hwc?hl=zh-cn">硬件混合渲染器 HAL</a> 则进行另一半的工作，是所有 Android 图形渲染的中心点。Hardware Composer 必须支持事件，其中之一是 VSYNC（另一个是支持即插即用 HDMI 的热插拔）。</p>
+<h2 id="数据流">数据流</h2>
+<p><img src="/images/facetrack/graphics-pipeline.png" alt=""></p>
+<p>左侧的对象是生成图形缓冲区的渲染器，如主屏幕、状态栏和系统界面。SurfaceFlinger 是合成器，而硬件混合渲染器是制作器。</p>
+<h2 id="egl">EGL</h2>
+<p><a href="https://source.android.com/devices/graphics?hl=zh-cn">android 官方图形模块</a></p>
+<p><a href="https://stackoverflow.com/questions/59435383/please-explain-to-me-what-exactly-is-egl-in-android#">EGL in Android</a></p>
+<p>OpenGL ES 是Android绘图API，但OpenGL ES是平台通用的，在特定设备上使用需要一个中间层做适配，这个中间层就是EGL。</p>
+<p><img src="/images/facetrack/egl.png" alt="egl"></p>
+<p>Display (EGLDisplay) 是对实际显示设备的抽象。</p>
+<p>Surface (EGLSurface) 是对用来存储图像的内存区域 FrameBuffer 的抽象，包括 Color Buffer， Stencil Buffer ，Depth Buffer。</p>
+<p>Context (EGLContext) 存储 OpenGL ES绘图的一些状态信息。</p>
+<p>Android 使用 <a href="https://www.khronos.org/opengles/">OpenGL ES (GLES)</a> API 渲染图形。为了创建 GLES 上下文并为 GLES 渲染提供窗口系统，Android 使用 <a href="https://www.khronos.org/egl">EGL 库</a>。GLES 调用用于渲染纹理多边形，而 EGL 调用用于将渲染放到屏幕上。</p>
+<p>在使用 GLES 进行绘制之前，您需要创建 GL 上下文。在 EGL 中，这意味着要创建一个 EGLContext 和一个 EGLSurface。 GLES 操作适用于当前上下文，该上下文通过线程局部存储访问，而不是作为参数进行传递。渲染代码应该在当前 GLES 线程（而不是界面线程）上执行。</p>
+<h2 id="surfaceview">SurfaceView</h2>
+<p>Android 应用框架界面以使用 <a href="https://developer.android.com/reference/android/view/View?hl=zh-cn">View</a> 开头的对象层次结构为基础。所有界面元素都会经过一系列的测量和一个布局过程，该过程会将这些元素融入到矩形区域中。然后，所有可见 View 对象都会渲染到一个 Surface（当应用置于前台时，由 WindowManager 进行设置）。应用的界面线程会按帧执行布局并渲染到缓冲区。</p>
+<p>当 SurfaceView 的 View 组件即将变得可见时，框架会要求 SurfaceControl 从 SurfaceFlinger 请求新的 surface。默认情况下，新创建的 Surface 放置在应用界面 Surface 的后面。您可以替换默认的 Z 轴顺序，将新的 Surface 放在前面。</p>
+<p>使用 SurfaceView 进行渲染时，SurfaceFlinger 会直接将缓冲区合成到屏幕上。如果没有 SurfaceView，您需要将缓冲区合成到屏幕外的 Surface，然后该 Surface 会合成到屏幕上，而使用 SurfaceView 进行渲染可以省去额外的工作。</p>
+<p>新的 Surface 是 BufferQueue 的生产方，其使用方是 SurfaceFlinger 层。您可以通过任何可向 BufferQueue 馈送资源的机制更新 Surface，例如，使用提供 Surface 的 Canvas 函数、附加 EGLSurface 并使用 GLES 在 Surface 上绘制，或者配置媒体解码器以写入 Surface。</p>
+<h2 id="glsurfaceview">GLSurfaceView</h2>
+<p><a href="https://developer.android.com/reference/android/opengl/GLSurfaceView?hl=zh-CN">GLSurfaceView</a> 类提供了帮助管理 EGL 上下文、在线程间通信以及与 activity 生命周期交互的辅助程序类。您无需使用 GLSurfaceView 即可使用 GLES。</p>
+<p>例如，GLSurfaceView 会创建一个渲染线程，并在线程上配置 EGL 上下文。当 Activity 暂停时，状态将自动清除。大多数应用无需了解有关 EGL 的任何信息即可通过 GLSurfaceView 来使用GLES。</p>
+<p>在大多数情况下，GLSurfaceView 可简化 GLES 的使用。但在某些情况下，却会造成妨碍。</p>
+<h2 id="surfacetexture">SurfaceTexture</h2>
+<p><code>SurfaceTexture</code> 是 Surface 和 <a href="https://www.khronos.org/opengles/">OpenGL ES (GLES)</a> 纹理的组合。<code>SurfaceTexture</code> 实例用于提供输出到 GLES 纹理的接口。</p>
+<p><code>SurfaceTexture</code> 包含一个以应用为使用方的 <code>BufferQueue</code> 实例。当生产方将新的缓冲区排入队列时，<code>onFrameAvailable()</code> 回调会通知应用。然后，应用调用 <code>updateTexImage()</code>，这会释放先前占用的缓冲区，从队列中获取新缓冲区并执行 <a href="https://www.khronos.org/egl">EGL</a> 调用，从而使 GLES 可将此缓冲区作为外部纹理使用。</p>
+<h3 id="外部-gles-纹理">外部 GLES 纹理</h3>
+<p>外部 GLES 纹理 (<code>GL_TEXTURE_EXTERNAL_OES</code>) 与传统 GLES 纹理 (<code>GL_TEXTURE_2D</code>) 的区别如下：</p>
+<ul>
+<li>外部纹理直接在从 <code>BufferQueue</code> 接收的数据中渲染纹理多边形。</li>
+<li>外部纹理渲染程序的配置与传统的 GLES 纹理渲染程序不同。</li>
+<li>外部纹理不一定可以执行所有传统的 GLES 纹理活动。</li>
+</ul>
+<p>外部纹理的主要优势是它们能够直接从 <code>BufferQueue</code> 数据进行渲染。<code>SurfaceTexture</code> 实例在为外部纹理创建 <code>BufferQueue</code> 实例时将使用方用法标志设置为 <code>GRALLOC_USAGE_HW_TEXTURE</code>，以确保 GLES 可以识别该缓冲区中的数据。</p>
+<p>由于 <code>SurfaceTexture</code> 实例会与 EGL 上下文交互，所以当拥有纹理的 EGL 上下文当前在发起调用的线程上时，应用只能调用其自己的方法。如需了解详情，请参阅 <a href="https://developer.android.com/reference/android/graphics/SurfaceTexture?hl=zh-cn"><code>SurfaceTexture</code></a> 类文档。</p>
+<h2 id="textureview">TextureView</h2>
+<p><a href="https://developer.android.com/reference/android/view/TextureView?hl=zh-CN">TextureView</a> 类是一个结合了 View 和 SurfaceTexture 的 View 对象。</p>
+<p>TextureView 对象会对 SurfaceTexture 进行包装，从而响应回调以及获取新的缓冲区。在 TextureView 获取新的缓冲区时，TextureView 会发出 View 失效请求，并使用最新缓冲区的内容作为数据源进行绘图，根据 View 状态的指示，以相应的方式在相应的位置进行呈现。</p>
+<h2 id="选择-surfaceview-或-textureview">选择 SurfaceView 或 TextureView</h2>
+<p><strong>注意</strong>：在 API 24 及更高版本中，建议实现 SurfaceView 而不是 TextureView。</p>
+<p>SurfaceView 和 TextureView 扮演的角色类似，且都是视图层次结构的组成部分。不过，SurfaceView 和 TextureView 拥有截然不同的实现。SurfaceView 采用与其他 View 相同的参数，但 SurfaceView 内容在呈现时是透明的。</p>
+<p>与 SurfaceView 相比，TextureView 具有更出色的 Alpha 版和旋转处理能力，但在视频上以分层方式合成界面元素时，SurfaceView 具有性能方面的优势。当客户端使用 SurfaceView 呈现内容时，SurfaceView 会为客户端提供单独的合成层。如果设备支持，SurfaceFlinger 会将单独的层合成为硬件叠加层。当客户端使用 TextureView 呈现内容时，界面工具包会使用 GPU 将 TextureView 的内容合成到视图层次结构中。对内容进行的更新可能会导致其他 View 元素重绘，例如，在其他 View 被置于 TextureView 顶部时。View 呈现完成后，SurfaceFlinger 会合成应用界面层和所有其他层，以便每个可见像素合成两次。</p>
+<p><strong>注意</strong>：受 DRM 保护的视频只能在叠加平面上呈现。支持受保护内容的视频播放器必须使用 SurfaceView 实现。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">nemoli</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-12-31
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/linux%E5%86%85%E6%A0%B8%E7%BC%96%E8%AF%91/">
+            <span class="next-text nav-default">Linux内核编译</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:hfutlwang@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/Nemo-Li" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+  <a href="https://nemo-li.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>nemoli</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

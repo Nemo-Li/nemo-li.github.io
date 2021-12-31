@@ -6,7 +6,7 @@
     <description>Recent content on nemoli&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 06 Dec 2021 23:37:20 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 31 Dec 2021 09:09:24 +0800</lastBuildDate>
     
 	<atom:link href="https://nemo-li.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -20,6 +20,15 @@
       <description>Hugo is a static site engine written in Go.
 It makes use of a variety of open source projects including:
  Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.</description>
+    </item>
+    
+    <item>
+      <title>Tv端人脸追踪实现</title>
+      <link>https://nemo-li.github.io/post/tv%E7%AB%AF%E4%BA%BA%E8%84%B8%E8%BF%BD%E8%B8%AA%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Fri, 31 Dec 2021 09:09:24 +0800</pubDate>
+      
+      <guid>https://nemo-li.github.io/post/tv%E7%AB%AF%E4%BA%BA%E8%84%B8%E8%BF%BD%E8%B8%AA%E5%AE%9E%E7%8E%B0/</guid>
+      <description>OpenGL简单介绍 OpenGL: 跨平台之王 Direct3D:（简称:D3D） 基于Windows平台开发者，DirectX，由微软创建的多媒体编程接口，</description>
     </item>
     
     <item>

@@ -9,21 +9,28 @@
   </url>
   
   <url>
-    <loc>https://nemo-li.github.io/post/linux%E5%86%85%E6%A0%B8%E7%BC%96%E8%AF%91/</loc>
-    <lastmod>2021-12-06T23:37:20+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://nemo-li.github.io/</loc>
-    <lastmod>2021-12-06T23:37:20+08:00</lastmod>
+    <lastmod>2021-12-31T09:09:24+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://nemo-li.github.io/post/</loc>
+    <lastmod>2021-12-31T09:09:24+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://nemo-li.github.io/post/tv%E7%AB%AF%E4%BA%BA%E8%84%B8%E8%BF%BD%E8%B8%AA%E5%AE%9E%E7%8E%B0/</loc>
+    <lastmod>2021-12-31T09:09:24+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://nemo-li.github.io/post/linux%E5%86%85%E6%A0%B8%E7%BC%96%E8%AF%91/</loc>
     <lastmod>2021-12-06T23:37:20+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
