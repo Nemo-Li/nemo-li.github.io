@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.63.2 with theme even" />
+<meta name="generator" content="Hugo 0.109.0 with theme even" />
 
 
 <link rel="canonical" href="https://nemo-li.github.io/post/linux%E5%86%85%E6%A0%B8%E7%BC%96%E8%AF%91/" />
@@ -33,26 +33,22 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-
-<link href="/sass/main.min.6b85ebaa5181f69ffca007917cbe971dca40b9e62b7506dbc9afb955c51bce56.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
 <meta property="og:title" content="Linux内核编译" />
 <meta property="og:description" content="Linux内核编译 mac搭建docker环境 使用homebrew安装docker 1 2 3 brew install --cask --appdir=/Applications docker //使用下面命令查看版本 docker --version 拉取ubuntu" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://nemo-li.github.io/post/linux%E5%86%85%E6%A0%B8%E7%BC%96%E8%AF%91/" />
+<meta property="og:url" content="https://nemo-li.github.io/post/linux%E5%86%85%E6%A0%B8%E7%BC%96%E8%AF%91/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-12-06T23:37:20+08:00" />
 <meta property="article:modified_time" content="2021-12-06T23:37:20+08:00" />
 <meta itemprop="name" content="Linux内核编译">
-<meta itemprop="description" content="Linux内核编译 mac搭建docker环境 使用homebrew安装docker 1 2 3 brew install --cask --appdir=/Applications docker //使用下面命令查看版本 docker --version 拉取ubuntu">
-<meta itemprop="datePublished" content="2021-12-06T23:37:20&#43;08:00" />
-<meta itemprop="dateModified" content="2021-12-06T23:37:20&#43;08:00" />
+<meta itemprop="description" content="Linux内核编译 mac搭建docker环境 使用homebrew安装docker 1 2 3 brew install --cask --appdir=/Applications docker //使用下面命令查看版本 docker --version 拉取ubuntu"><meta itemprop="datePublished" content="2021-12-06T23:37:20+08:00" />
+<meta itemprop="dateModified" content="2021-12-06T23:37:20+08:00" />
 <meta itemprop="wordCount" content="433">
-
-
-
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux内核编译"/>
 <meta name="twitter:description" content="Linux内核编译 mac搭建docker环境 使用homebrew安装docker 1 2 3 brew install --cask --appdir=/Applications docker //使用下面命令查看版本 docker --version 拉取ubuntu"/>
@@ -127,7 +123,9 @@
       <div class="post-meta">
         <span class="post-time"> 2021-12-06 </span>
         
-        
+          <span class="more-meta"> 约 433 字 </span>
+          <span class="more-meta"> 预计阅读 1 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
     </header>
 
@@ -158,54 +156,54 @@
 <h3 id="使用homebrew安装docker">使用homebrew安装docker</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">brew install --cask --appdir<span class="o">=</span>/Applications docker
-//使用下面命令查看版本
-docker --version
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">brew install --cask --appdir<span class="o">=</span>/Applications docker
+</span></span><span class="line"><span class="cl">//使用下面命令查看版本
+</span></span><span class="line"><span class="cl">docker --version
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="拉取ubuntu镜像">拉取ubuntu镜像</h3>
 <p>如果只输入ubuntu，默认拉取最新版本，冒号后面加相应tag版本</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">docker pull ubuntu:16.04
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker pull ubuntu:16.04
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="创建容器">创建容器</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">docker run -i -t --name ubuntu16.04 ubuntu:16.04 bash
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker run -i -t --name ubuntu16.04 ubuntu:16.04 bash
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>查看当前安装的 Docker 镜像<code>docker image ls</code>。执行命令<code>cat /etc/issue</code> 可以查看系统版本,按快捷键组合 <code>ctrl + d </code>就会退出 ubuntu 容器，此时就会停止容器运行。</p>
 <p>使用命令 docker ps 可以查看当前运行的容器，如果此时执行，会发现没有容器信息，因为我们已经停止了刚才创建的容器。怎么查看已经关闭的容器信息呢？使用命令 docker ps -a，会列出所有容器信息，包括已经关闭的。此时执行，就会看到已经关闭的 ubuntu16.04 容器。</p>
 <h3 id="提交镜像">提交镜像</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">docker commit -m <span class="s1">&#39;add ssh&#39;</span> -a <span class="s1">&#39;nemoli&#39;</span> 1a253c5c60a2 ubuntu-nemo
-//运行容器
-docker run -d -p 26122:22 --name learn ubuntu-nemo /usr/sbin/sshd -D
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker commit -m <span class="s1">&#39;add ssh&#39;</span> -a <span class="s1">&#39;nemoli&#39;</span> 1a253c5c60a2 ubuntu-nemo
+</span></span><span class="line"><span class="cl">//运行容器
+</span></span><span class="line"><span class="cl">docker run -d -p 26122:22 --name learn ubuntu-nemo /usr/sbin/sshd -D
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>为ubuntu容器开启ssh服务后可以在iterm终端访问该容器</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -213,13 +211,13 @@ docker run -d -p 26122:22 --name learn ubuntu-nemo /usr/sbin/sshd -D
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">//连接容器
-ssh -p <span class="m">26122</span> root@localhost
-//本地拷贝文件到容器
-docker cp 本地文件路径 ID全称:容器路径
-//容器拷贝到本地
-docker cp ID全称:容器路径 本地文件路径 
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">//连接容器
+</span></span><span class="line"><span class="cl">ssh -p <span class="m">26122</span> root@localhost
+</span></span><span class="line"><span class="cl">//本地拷贝文件到容器
+</span></span><span class="line"><span class="cl">docker cp 本地文件路径 ID全称:容器路径
+</span></span><span class="line"><span class="cl">//容器拷贝到本地
+</span></span><span class="line"><span class="cl">docker cp ID全称:容器路径 本地文件路径 
+</span></span></code></pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -283,12 +281,16 @@ docker cp ID全称:容器路径 本地文件路径
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
 
-  
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
 
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>nemoli</span>
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>nemoli</span>
   </span>
 </div>
 
@@ -305,7 +307,7 @@ docker cp ID全称:容器路径 本地文件路径
 
 
 
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

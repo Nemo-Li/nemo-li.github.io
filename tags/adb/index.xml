@@ -6,11 +6,7 @@
     <description>Recent content in adb on nemoli&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 12 Jun 2020 13:47:44 +0000</lastBuildDate>
-    
-	<atom:link href="https://nemo-li.github.io/tags/adb/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 12 Jun 2020 13:47:44 +0000</lastBuildDate><atom:link href="https://nemo-li.github.io/tags/adb/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>adb常用命令</title>
       <link>https://nemo-li.github.io/post/adb/</link>

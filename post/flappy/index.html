@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.63.2 with theme even" />
+<meta name="generator" content="Hugo 0.109.0 with theme even" />
 
 
 <link rel="canonical" href="https://nemo-li.github.io/post/flappy/" />
@@ -33,26 +33,22 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-
-<link href="/sass/main.min.6b85ebaa5181f69ffca007917cbe971dca40b9e62b7506dbc9afb955c51bce56.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
 <meta property="og:title" content="Flappy" />
 <meta property="og:description" content="OpenGL Open Graphics Library开放式图形库是用于渲染2D、3D矢量图形的跨语言、跨平台的应用程序编程接口（API）。而另一种程序接口系统是仅用于Mic" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://nemo-li.github.io/post/flappy/" />
+<meta property="og:url" content="https://nemo-li.github.io/post/flappy/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2020-09-05T16:51:01+08:00" />
 <meta property="article:modified_time" content="2020-09-05T16:51:01+08:00" />
 <meta itemprop="name" content="Flappy">
-<meta itemprop="description" content="OpenGL Open Graphics Library开放式图形库是用于渲染2D、3D矢量图形的跨语言、跨平台的应用程序编程接口（API）。而另一种程序接口系统是仅用于Mic">
-<meta itemprop="datePublished" content="2020-09-05T16:51:01&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-05T16:51:01&#43;08:00" />
+<meta itemprop="description" content="OpenGL Open Graphics Library开放式图形库是用于渲染2D、3D矢量图形的跨语言、跨平台的应用程序编程接口（API）。而另一种程序接口系统是仅用于Mic"><meta itemprop="datePublished" content="2020-09-05T16:51:01+08:00" />
+<meta itemprop="dateModified" content="2020-09-05T16:51:01+08:00" />
 <meta itemprop="wordCount" content="1834">
-
-
-
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Flappy"/>
 <meta name="twitter:description" content="OpenGL Open Graphics Library开放式图形库是用于渲染2D、3D矢量图形的跨语言、跨平台的应用程序编程接口（API）。而另一种程序接口系统是仅用于Mic"/>
@@ -127,7 +123,9 @@
       <div class="post-meta">
         <span class="post-time"> 2020-09-05 </span>
         
-        
+          <span class="more-meta"> 约 1834 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
     </header>
 
@@ -222,13 +220,13 @@ $$
 $$
 这里$x$不变，只有$y,z$坐标在变化，我们得到了计算变换后的$(y&rsquo;, z&rsquo;)$坐标
 $$
-y'=\color{green} {cos\theta} \cdot y - \color{green}{sin\theta} \cdot z
+y&rsquo;=\color{green} {cos\theta} \cdot y - \color{green}{sin\theta} \cdot z
 $$</p>
 <p>$$
-z'= \color{blue}{sin\theta} \cdot y + \color{blue}{cos\theta} \cdot z
+z&rsquo;= \color{blue}{sin\theta} \cdot y + \color{blue}{cos\theta} \cdot z
 $$</p>
 <p>$$
-y'^2 + z'^2 = (\color{green} {cos\theta} \cdot y - \color{green}{sin\theta} \cdot z)^2 + ( \color{blue}{sin\theta} \cdot y + \color{blue}{cos\theta} \cdot z)^2
+y&rsquo;^2 + z&rsquo;^2 = (\color{green} {cos\theta} \cdot y - \color{green}{sin\theta} \cdot z)^2 + ( \color{blue}{sin\theta} \cdot y + \color{blue}{cos\theta} \cdot z)^2
 $$</p>
 <p>$$
 = y^2 + z^2
@@ -262,15 +260,15 @@ $$
 <p><img src="/images/flappy/light_reflection.png" alt=""></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">glm</span><span class="o">:</span><span class="o">:</span><span class="n">vec3</span> <span class="n">lightColor</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">)</span><span class="p">;</span>
-<span class="n">glm</span><span class="o">:</span><span class="o">:</span><span class="n">vec3</span> <span class="n">toyColor</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.5f</span><span class="p">,</span> <span class="mf">0.31f</span><span class="p">)</span><span class="p">;</span>
-<span class="n">glm</span><span class="o">:</span><span class="o">:</span><span class="n">vec3</span> <span class="n">result</span> <span class="o">=</span> <span class="n">lightColor</span> <span class="o">*</span> <span class="n">toyColor</span><span class="p">;</span> <span class="c1">// = (1.0f, 0.5f, 0.31f);
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span> <span class="nf">lightColor</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span> <span class="nf">toyColor</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.5f</span><span class="p">,</span> <span class="mf">0.31f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">glm</span><span class="o">::</span><span class="n">vec3</span> <span class="n">result</span> <span class="o">=</span> <span class="n">lightColor</span> <span class="o">*</span> <span class="n">toyColor</span><span class="p">;</span> <span class="c1">// = (1.0f, 0.5f, 0.31f);
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="opengl光照">opengl光照</h5>
 <p>我们使用冯氏光照模型，分为环境光照，漫放射光照，镜面光照</p>
@@ -341,12 +339,16 @@ $$
     <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
   </span>
 
-  
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
 
   <span class="copyright-year">
     &copy; 
     2017 - 
-    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>nemoli</span>
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>nemoli</span>
   </span>
 </div>
 
@@ -363,7 +365,7 @@ $$
 
 
 
-<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
   <script type="text/javascript">
     window.MathJax = {
       tex: {
