@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>SurfaceFlinger启动 - nemoli&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="nemoli" /><meta name="description" content="源码文件导航 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 frameworks/native/services/surfaceflinger SurfaceFlinger.cpp main_surfaceflinger.cpp MessageQueue.cpp EventControlThread.cpp DispSync.cpp DisplayHardware/HWComposer.cpp frameworks/native/libs/binder ProcessState.cpp system/core/libutils Looper.cpp frameworks/native/libs/gui/ DisplayEventReceiver.cpp BitTube.cpp 概述 surfaceflinger是一个单独的进程，由init进程启" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.109.0 with theme even" />
+
+
+<link rel="canonical" href="https://nemo-li.github.io/post/surfaceflinger%E5%90%AF%E5%8A%A8/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="SurfaceFlinger启动" />
+<meta property="og:description" content="源码文件导航 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 frameworks/native/services/surfaceflinger SurfaceFlinger.cpp main_surfaceflinger.cpp MessageQueue.cpp EventControlThread.cpp DispSync.cpp DisplayHardware/HWComposer.cpp frameworks/native/libs/binder ProcessState.cpp system/core/libutils Looper.cpp frameworks/native/libs/gui/ DisplayEventReceiver.cpp BitTube.cpp 概述 surfaceflinger是一个单独的进程，由init进程启" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nemo-li.github.io/post/surfaceflinger%E5%90%AF%E5%8A%A8/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-02-17T13:40:36+08:00" />
+<meta property="article:modified_time" content="2023-02-17T13:40:36+08:00" />
+<meta itemprop="name" content="SurfaceFlinger启动">
+<meta itemprop="description" content="源码文件导航 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 frameworks/native/services/surfaceflinger SurfaceFlinger.cpp main_surfaceflinger.cpp MessageQueue.cpp EventControlThread.cpp DispSync.cpp DisplayHardware/HWComposer.cpp frameworks/native/libs/binder ProcessState.cpp system/core/libutils Looper.cpp frameworks/native/libs/gui/ DisplayEventReceiver.cpp BitTube.cpp 概述 surfaceflinger是一个单独的进程，由init进程启"><meta itemprop="datePublished" content="2023-02-17T13:40:36+08:00" />
+<meta itemprop="dateModified" content="2023-02-17T13:40:36+08:00" />
+<meta itemprop="wordCount" content="2662">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SurfaceFlinger启动"/>
+<meta name="twitter:description" content="源码文件导航 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 frameworks/native/services/surfaceflinger SurfaceFlinger.cpp main_surfaceflinger.cpp MessageQueue.cpp EventControlThread.cpp DispSync.cpp DisplayHardware/HWComposer.cpp frameworks/native/libs/binder ProcessState.cpp system/core/libutils Looper.cpp frameworks/native/libs/gui/ DisplayEventReceiver.cpp BitTube.cpp 概述 surfaceflinger是一个单独的进程，由init进程启"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">nemoli</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">nemoli</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">SurfaceFlinger启动</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2023-02-17 </span>
+        
+          <span class="more-meta"> 约 2662 字 </span>
+          <span class="more-meta"> 预计阅读 6 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#源码文件导航">源码文件导航</a></li>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#启动">启动</a>
+      <ul>
+        <li><a href="#构造函数">构造函数</a></li>
+        <li><a href="#初始化">初始化</a>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#vsync">Vsync</a>
+      <ul>
+        <li><a href="#问题">问题</a></li>
+        <li><a href="#几个概念">几个概念</a></li>
+      </ul>
+    </li>
+    <li><a href="#补充">补充</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="源码文件导航">源码文件导航</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">frameworks</span><span class="o">/</span><span class="n">native</span><span class="o">/</span><span class="n">services</span><span class="o">/</span><span class="n">surfaceflinger</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SurfaceFlinger</span><span class="p">.</span><span class="n">cpp</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main_surfaceflinger</span><span class="p">.</span><span class="n">cpp</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MessageQueue</span><span class="p">.</span><span class="n">cpp</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventControlThread</span><span class="p">.</span><span class="n">cpp</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DispSync</span><span class="p">.</span><span class="n">cpp</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DisplayHardware</span><span class="o">/</span><span class="n">HWComposer</span><span class="p">.</span><span class="n">cpp</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">frameworks</span><span class="o">/</span><span class="n">native</span><span class="o">/</span><span class="n">libs</span><span class="o">/</span><span class="n">binder</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ProcessState</span><span class="p">.</span><span class="n">cpp</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">system</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">libutils</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Looper</span><span class="p">.</span><span class="n">cpp</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">frameworks</span><span class="o">/</span><span class="n">native</span><span class="o">/</span><span class="n">libs</span><span class="o">/</span><span class="n">gui</span><span class="o">/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DisplayEventReceiver</span><span class="p">.</span><span class="n">cpp</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BitTube</span><span class="p">.</span><span class="n">cpp</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="概述">概述</h1>
+<p>surfaceflinger是一个单独的进程，由init进程启动，是守护进程。设备开机boot过程会解析rc文件，并根据其配置启动系统服务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">//service和四大组件中的service无关。会解析为启动阶段系统服务的对象，并启动
+</span></span></span><span class="line"><span class="cl"><span class="c1">//指定服务名，执行文件位置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">service</span> <span class="n">surfaceflinger</span> <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">surfaceflinger</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//核心class，表面启动时间是boot后就启动
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">class</span> <span class="nc">core</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//用户 system，其它的还有root adb 等
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">user</span> <span class="n">system</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//用户组
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">group</span> <span class="n">graphics</span> <span class="n">drmrpc</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//如果重启会导致zygote重启
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">onrestart</span> <span class="n">restart</span> <span class="n">zygote</span>
+</span></span><span class="line"><span class="cl">    <span class="n">writepid</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">cpuset</span><span class="o">/</span><span class="n">system</span><span class="o">-</span><span class="n">background</span><span class="o">/</span><span class="n">tasks</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="启动">启动</h1>
+<p>执行/system/bin/surfaceflinger，进入main方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// When SF is launched in its own process, limit the number of
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// binder threads to 4.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//self方法，获取ProcessState单例
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ProcessState</span><span class="o">::</span><span class="n">self</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">setThreadPoolMaxThreadCount</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// start the thread pool
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//引用计数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">sp</span><span class="o">&lt;</span><span class="n">ProcessState</span><span class="o">&gt;</span> <span class="n">ps</span><span class="p">(</span><span class="n">ProcessState</span><span class="o">::</span><span class="n">self</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//启动binder 线程池
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ps</span><span class="o">-&gt;</span><span class="n">startThreadPool</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// instantiate surfaceflinger
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">sp</span><span class="o">&lt;</span><span class="n">SurfaceFlinger</span><span class="o">&gt;</span> <span class="n">flinger</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SurfaceFlinger</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//进程优先级 URGENT 紧迫的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">setpriority</span><span class="p">(</span><span class="n">PRIO_PROCESS</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">PRIORITY_URGENT_DISPLAY</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//调度策略 前台
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">set_sched_policy</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">SP_FOREGROUND</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// initialize before clients can connect
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">flinger</span><span class="o">-&gt;</span><span class="n">init</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// publish surface flinger
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">sp</span><span class="o">&lt;</span><span class="n">IServiceManager</span><span class="o">&gt;</span> <span class="n">sm</span><span class="p">(</span><span class="n">defaultServiceManager</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sm</span><span class="o">-&gt;</span><span class="n">addService</span><span class="p">(</span><span class="n">String16</span><span class="p">(</span><span class="n">SurfaceFlinger</span><span class="o">::</span><span class="n">getServiceName</span><span class="p">()),</span> <span class="n">flinger</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// run in this thread
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">flinger</span><span class="o">-&gt;</span><span class="n">run</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>创建binder线程池，个数上限为4
+启动surfaceFlinger，进程优先级高，调度策略前台，在当前主线程一直run</p>
+<h2 id="构造函数">构造函数</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">//最终继承到RefBase，主要是引用计数的，智能指针，引用为0后会回收
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nl">SurfaceFlinger</span><span class="p">:</span><span class="nl">BnSurfaceComposer</span><span class="p">:</span><span class="nl">BnInterface</span><span class="p">:</span><span class="n">ISurfaceComposer</span><span class="p">,</span><span class="nl">BBinder</span><span class="p">:</span><span class="nl">IBinder</span><span class="p">:</span><span class="n">RefBase</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//binder通信接口定义，用于访问surfaceFlinger的方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nl">ISurfaceComposer</span><span class="p">:</span><span class="nl">IInterface</span><span class="p">:</span><span class="n">RefBase</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>构造函数主要初始化一些调试开关</p>
+<h2 id="初始化">初始化</h2>
+<p>sp强引用指针，第一次被引用回调 onFirstRef方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">SurfaceFlinger</span><span class="o">::</span><span class="n">onFirstRef</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mEventQueue</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">MessageQueue</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="k">const</span> <span class="n">sp</span><span class="o">&lt;</span><span class="n">SurfaceFlinger</span><span class="o">&gt;&amp;</span> <span class="n">flinger</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mFlinger</span> <span class="o">=</span> <span class="n">flinger</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mLooper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Looper</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mHandler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Handler</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MessageQueue</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">class</span> <span class="nc">Handler</span> <span class="o">:</span> <span class="k">public</span> <span class="n">MessageHandler</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">enum</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">eventMaskInvalidate</span>     <span class="o">=</span> <span class="mh">0x1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">eventMaskRefresh</span>        <span class="o">=</span> <span class="mh">0x2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">eventMaskTransaction</span>    <span class="o">=</span> <span class="mh">0x4</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="n">MessageQueue</span><span class="o">&amp;</span> <span class="n">mQueue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int32_t</span> <span class="n">mEventMask</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Handler</span><span class="p">(</span><span class="n">MessageQueue</span><span class="o">&amp;</span> <span class="n">queue</span><span class="p">)</span> <span class="o">:</span> <span class="n">mQueue</span><span class="p">(</span><span class="n">queue</span><span class="p">),</span> <span class="n">mEventMask</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">handleMessage</span><span class="p">(</span><span class="k">const</span> <span class="n">Message</span><span class="o">&amp;</span> <span class="n">message</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">void</span> <span class="nf">dispatchRefresh</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">void</span> <span class="nf">dispatchInvalidate</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">void</span> <span class="nf">dispatchTransaction</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="loopercpp">Looper.cpp</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">//SurfaceFlinger.cpp
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="n">SurfaceFlinger</span><span class="o">::</span><span class="n">run</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">waitForEvent</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">SurfaceFlinger</span><span class="o">::</span><span class="n">waitForEvent</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mEventQueue</span><span class="p">.</span><span class="n">waitMessage</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//MessageQueue.cpp
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="n">MessageQueue</span><span class="o">::</span><span class="n">waitMessage</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">IPCThreadState</span><span class="o">::</span><span class="n">self</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">flushCommands</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int32_t</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">mLooper</span><span class="o">-&gt;</span><span class="n">pollOnce</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">switch</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="n">Looper</span><span class="o">::</span><span class="nl">POLL_WAKE</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="n">Looper</span><span class="o">::</span><span class="nl">POLL_CALLBACK</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="n">Looper</span><span class="o">::</span><span class="nl">POLL_ERROR</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ALOGE</span><span class="p">(</span><span class="s">&#34;Looper::POLL_ERROR&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="n">Looper</span><span class="o">::</span><span class="nl">POLL_TIMEOUT</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// timeout (should not happen)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">default</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// should not happen
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">ALOGE</span><span class="p">(</span><span class="s">&#34;Looper::pollOnce() returned unknown status %d&#34;</span><span class="p">,</span> <span class="n">ret</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>pollOnce内部使用epoll机制，一种IO多路复用机制，fd可用后会进行回调，类似观察者模式</p>
+<h1 id="总结">总结</h1>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/jpeg/689913/1676306768772-58d6d1b4-ec87-490e-8788-3b651282a86d.jpeg" alt=""></p>
+<h1 id="vsync">Vsync</h1>
+<h2 id="问题">问题</h2>
+<ol>
+<li>为什么需要垂直同步</li>
+<li>双缓冲就可以解决画面撕裂问题吗</li>
+<li>android4.1之前没有垂直同步吗？android4.1之后到底改了什么</li>
+<li>为什么要三缓存</li>
+</ol>
+<h2 id="几个概念">几个概念</h2>
+<p>**逐行扫描：**屏幕显示是一行一行扫描显示的，并不是瞬间取走内存数据，瞬时显示，所以这个过程有时间。假如显示器完全显示完，然后刷新屏幕显示的帧缓存区，就不会出现屏幕撕裂的问题。如果显示到一半，这时帧缓冲刷新了，那么后半部分屏幕就会显示下一帧。
+**屏幕刷新率（HZ）：**代表屏幕在一秒内刷新屏幕的次数，Android手机一般为60HZ（也就是1秒刷新60帧，大约16.67毫秒刷新1帧）
+**系统帧速率（FPS）：**这个不是恒定的，应该可以说是一段时间的帧速率。代表了系统在一秒内合成的帧数，该值的大小由系统算法和硬件决定。
+刷新率和帧速率不同步，导致画面出现一些问题，分两种情况讨论</p>
+<ol>
+<li>屏幕刷新速率比系统帧速率快</li>
+</ol>
+<p>屏幕已经显示完一帧画面，这时下一帧还未准备好，屏幕继续显示上一帧，出现一帧显示多次的情况，导致卡顿。</p>
+<ol start="2">
+<li>系统帧速率比屏幕刷新率快</li>
+</ol>
+<p>屏幕正在显示一帧画面，此时下一帧已经好了，并且这时就进行了前后缓存交换，屏幕继续读取数据，这时画面就产生撕裂。
+从上面分析可知，不管单缓冲还是双缓冲，都有可能出现撕裂问题，本质上是需要同步。单缓冲要是加锁也可以解决撕裂问题，但是这样GPU就会被挂起不能有效利用（显示的内存被显示器占用，GPU不能向里面写数据），所以这里要注意双缓冲指的是GPU的双缓冲。CPU画面处理的内存还是可以正常使用的，不会影响CPU。
+垂直同步（VSync）: 当屏幕从缓冲区扫描完一帧到屏幕上之后，开始扫描下一帧之前，发出的一个同步信号，该信号用来切换前缓冲区和后缓冲区。
+垂直同步保证系统配合屏幕显示，需要固定时间准备好下一帧，屏幕显示时间一般固定，所以帧率基本稳定。所以垂直同步必须要双缓冲，假如单缓冲，同步信号没来，该缓存不能写入，GPU就挂起不工作了。
+Android4.1之前：在Android4.1之前，屏幕刷新也遵循双缓存+VSync机制。Android4.1之后，系统绘制的优先级被提高，VSync来了同时就进行绘制操作（Draw）。
+VSync来时才进行绘制会导致如下的问题
+<img src="https://cdn.nlark.com/yuque/0/2023/png/689913/1676355013121-1ba296d9-1c46-4ed9-b61b-f639af588c87.png#averageHue=%23f4f1e8&amp;clientId=u7e6eb2a1-d61a-4&amp;from=paste&amp;height=422&amp;id=u533087c0&amp;name=image.png&amp;originHeight=844&amp;originWidth=1904&amp;originalType=binary&amp;ratio=2&amp;rotation=0&amp;showTitle=false&amp;size=416960&amp;status=done&amp;style=none&amp;taskId=u36465b6c-dcba-4165-952a-9299cad7d88&amp;title=&amp;width=952" alt="image.png">
+第一个Jank产生，B帧由于没有绘制完，继续显示A帧，这时由于VSync没来，GPU不进行下帧的绘制，等到VSync来了才绘制，这时由于绘制时长一直很长，那么就会一直Jank。问题产生原因是Vsync之间的时间被浪费掉了。相比没有改动前Jank情况更加严重。所以引入三缓冲，解决同步Drawing引入的GPU未充分使用问题。
+三缓冲情况如下
+<img src="https://cdn.nlark.com/yuque/0/2023/png/689913/1676355408777-fefb8a89-a4ec-43ee-b66d-35f5b9012a53.png#averageHue=%23f3efe8&amp;clientId=u7e6eb2a1-d61a-4&amp;from=paste&amp;height=427&amp;id=uf6890106&amp;name=image.png&amp;originHeight=854&amp;originWidth=1912&amp;originalType=binary&amp;ratio=2&amp;rotation=0&amp;showTitle=false&amp;size=428480&amp;status=done&amp;style=none&amp;taskId=u0127e1ea-23ae-4690-8ba0-4c071786a15&amp;title=&amp;width=956" alt="image.png">
+三缓冲有效利用了等待Vsync的时间，减少了Jank，但是带来了延迟。所以，Buffer正常情况下还是两个，当出现Jank后出现三个，三个已经足够使用。
+比较好的解释：<a href="https://developer.aliyun.com/article/952540">https://developer.aliyun.com/article/952540</a></p>
+<h1 id="补充">补充</h1>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/689913/1676358877557-c45ada20-0d1c-44be-a9ad-7b41f4270d27.png#averageHue=%23f7f5f2&amp;clientId=u345f4e6f-66f1-4&amp;from=paste&amp;height=715&amp;id=u787f0d9a&amp;name=image.png&amp;originHeight=1430&amp;originWidth=2842&amp;originalType=binary&amp;ratio=2&amp;rotation=0&amp;showTitle=false&amp;size=374017&amp;status=done&amp;style=none&amp;taskId=u30cb0dd8-73a4-40e5-b66e-b1853f93b4b&amp;title=&amp;width=1421" alt="image.png">
+从systrace可以验证 binder线程池有4个线程，有熟悉的DispSync、EventThread。HwBinder和硬件进行交互。
+mali 和GPU相关，ARM Mali GPU系列知识<a href="https://community.arm.com/cn/f/discussions/6104/arm-mali-gpu">参考</a>
+作为业界顶级芯片厂商，ARM能为各类便携式智能设备以及其他相关产品提供包括CPU、GPU在内的多方面的解决方案，其中ARM的GPU就是Mali系列，它既有世界上最小的符合OpenGL ES 1.1的GPU，也有支持全高清解码、或者具有可扩展性的多核解决方案，为高端数字娱乐系统提供强劲的支持。
+1.仅针对图形的解决方案是基于 Utgard 架构的，可以在最小的芯片面积中获得最高的性能。基于可扩展的Utgard架构的产品包括Mali-300、Mali-400 MP以及Mali-450 MP。这些产品为大众市场提供了从低端到高端的各种可扩展的解决方案，为智能电视、平板电脑和智能手机提供了行业领先的图形性能。
+Mali-400 MP是世界上第一个符合 OpenGL® ES 2.0标准的多核 GPU，具备可扩展的、最高可以支持到 1080 像素的分辨率二维和三维加速性能，同时保持 ARM在功耗和带宽效率方面的领先地位。Mali-450 MP将成功的图形产品系列的 OpenGL® ES 2.0 性能提高了一倍。通过扩展到最多 8 个内核，从而扩展了性能范围，并使处理吞吐量峰值提高了一倍。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">nemoli</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2023-02-17
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/tv%E7%AB%AF%E4%BA%BA%E8%84%B8%E8%BF%BD%E8%B8%AA%E5%AE%9E%E7%8E%B0/">
+            <span class="next-text nav-default">Tv端人脸追踪实现</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:hfutlwang@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/Nemo-Li" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+  <a href="https://nemo-li.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>nemoli</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

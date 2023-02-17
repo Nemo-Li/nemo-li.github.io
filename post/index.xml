@@ -6,7 +6,16 @@
     <description>Recent content in Posts on nemoli&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 31 Dec 2021 09:09:24 +0800</lastBuildDate><atom:link href="https://nemo-li.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 17 Feb 2023 13:40:36 +0800</lastBuildDate><atom:link href="https://nemo-li.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SurfaceFlinger启动</title>
+      <link>https://nemo-li.github.io/post/surfaceflinger%E5%90%AF%E5%8A%A8/</link>
+      <pubDate>Fri, 17 Feb 2023 13:40:36 +0800</pubDate>
+      
+      <guid>https://nemo-li.github.io/post/surfaceflinger%E5%90%AF%E5%8A%A8/</guid>
+      <description>源码文件导航 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 frameworks/native/services/surfaceflinger SurfaceFlinger.cpp main_surfaceflinger.cpp MessageQueue.cpp EventControlThread.cpp DispSync.cpp DisplayHardware/HWComposer.cpp frameworks/native/libs/binder ProcessState.cpp system/core/libutils Looper.cpp frameworks/native/libs/gui/ DisplayEventReceiver.cpp BitTube.cpp 概述 surfaceflinger是一个单独的进程，由init进程启</description>
+    </item>
+    
     <item>
       <title>Tv端人脸追踪实现</title>
       <link>https://nemo-li.github.io/post/tv%E7%AB%AF%E4%BA%BA%E8%84%B8%E8%BF%BD%E8%B8%AA%E5%AE%9E%E7%8E%B0/</link>
